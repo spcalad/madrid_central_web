@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  app:
+    build: .
+    depends_on:
+      - db
+    command: flask run --host=0.0.0.0
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/madrid_central
+      FLASK_APP: app.py
+      FLASK_ENV: development
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/usr/src/madrid_central
+
+  db:
+    image: postgres:12-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: madrid_central
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+volumes:
+  postgres_data:
