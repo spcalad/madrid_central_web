@@ -6,6 +6,7 @@ from app.controllers.measurements_controller import index_measurements
 from app.controllers.magnitudes_controller import index_magnitudes
 from app.controllers.stations_controller import index_stations
 from app.controllers.dates_controller import index_dates
+from app.controllers.sessions_controller import new_session
 
 template_dir = os.path.abspath('app/views/')
 
@@ -16,3 +17,4 @@ app_blueprints.add_url_rule('/measurements', view_func=index_measurements, metho
 app_blueprints.add_url_rule('/magnitudes', view_func=index_magnitudes, methods=['GET'])
 app_blueprints.add_url_rule('/stations', view_func=index_stations, methods=['GET'])
 app_blueprints.add_url_rule('/dates', view_func=index_dates, methods=['GET'])
+app_blueprints.add_url_rule('/login', view_func=new_session, methods=['GET'])
