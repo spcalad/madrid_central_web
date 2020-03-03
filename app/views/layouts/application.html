@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% block head %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {% block styles %}
+    <!-- Bootstrap CSS -->
+    {{ bootstrap.load_css() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    {% endblock %}
+
+    {% if title %}
+    <title>Madrid Central - {{ title }}</title>
+    {% else %}
+    <title>Madrid Central</title>
+    {% endif %}
+    {% endblock %}
+  </head>
+
+  <body>
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+          <a class="navbar-brand mr-4" href="/">Madrid Central</a>
+          <button class="navbar-toggler" type="button" data-target="#navbarToggle" data-toggle="collapse" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+              <a class="nav-item nav-link" href="/measurements">Medida</a>
+              <a class="nav-item nav-link" href="/magnitudes">Magnitud</a>
+              <a class="nav-item nav-link" href="/stations">Estación</a>
+              <a class="nav-item nav-link" href="/dates">Fecha</a>
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+              <a class="nav-item nav-link" href="/login">Ingresar</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-10 offset-md-1">
+          {% block content %}{% endblock %}
+        </div>
+      </div>
+    </main>
+
+    {% block scripts %}
+    <!-- Optional JavaScript -->
+    {{ bootstrap.load_js() }}
+    {% endblock %}
+  </body>
+</html>
