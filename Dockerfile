@@ -1,5 +1,5 @@
 # pull python image
-FROM python:3.7.4-alpine
+FROM amancevice/pandas:1.0.1-alpine
 
 # set working directory
 WORKDIR /usr/src/madrid_central
@@ -11,7 +11,7 @@ ENV PYTHONUNBUFFERED 1
 RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev
 
 # install dependencies
-RUN pip install --upgrade pip
+RUN pip3 install --upgrade pip
 COPY ./requirements.txt requirements.txt
 RUN export LDFLAGS="-L/usr/local/opt/openssl/lib"
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt

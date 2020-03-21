@@ -20,6 +20,11 @@ To run the app in development mode, execute:
 docker-compose up
 ```
 
+## Running the app to use debug breakpoints
+```bash
+docker-compose run -p 5000:5000 app
+```
+
 and then open `http://localhost:5000`
 
 ## How to install new python libs
