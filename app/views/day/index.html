@@ -5,7 +5,26 @@
 <h2>Dates</h2>
 <div class="row">
   <div class="col-lg-8">
-    Aqui van los datos
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Day</th>
+          <th scope="col">Month</th>
+          <th scope="col">Year</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for day in days %}
+          <tr>
+            <th scope="row">{{ day.id }}</th>
+            <td>{{ day.day }}</td>
+            <td>{{ day.month }}</td>
+            <td>{{ day.year }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
   <div class="col-lg-4">
     <button class="btn btn-outline-success" data-toggle="modal" data-target="#modalNew">Crear</button>
@@ -16,12 +35,12 @@
 
 <!-- Modal New -->
 <div class="modal fade" id="modalNew" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  {% include 'dates/create.html' %}
+  {% include 'day/create.html' %}
 </div>
 
 <!-- Modal Delete -->
 <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  {% include 'dates/delete.html' %}
+  {% include 'day/delete.html' %}
 </div>
 
 {% endblock content %}
