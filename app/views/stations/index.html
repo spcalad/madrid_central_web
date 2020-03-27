@@ -1,7 +1,53 @@
 {% extends "layouts/application.html" %}
 
 {% block content %}
+  <div class="row">
+    <div class="col-lg-8">
+      <h2>Stations</h2>
+    </div>
+    <div class="col-lg-4">
+        <button class="btn btn-outline-success" data-toggle="modal" data-target="#modalNew">Crear</button>
+        <button class="btn btn-outline-danger" data-toggle="modal" data-target="#modalDelete">Eliminar</button>
+    </div>
+  </div>
 
-<h2>Stations</h2>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Type</th>
+        <th scope="col">Address</th>
+        <th scope="col">Latitude</th>
+        <th scope="col">Longitude</th>
+        <th scope="col">Altitude</th>
+        <th scope="col">Start Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for station in stations %}
+        <tr>
+          <th scope="row">{{ station.id }}</th>
+          <td>{{ station.name }}</td>
+          <td>{{ station.type }}</td>
+          <td>{{ station.address }}</td>
+          <td>{{ station.latitude }}</td>
+          <td>{{ station.longitude }}</td>
+          <td>{{ station.altitude }}</td>
+          <td>{{ station.start_date }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
+
+  <!-- Modal New -->
+  <div class="modal fade" id="modalNew" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {% include 'stations/create.html' %}
+  </div>
+
+  <!-- Modal Delete -->
+  <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {% include 'stations/delete.html' %}
+  </div>
 {% endblock content %}

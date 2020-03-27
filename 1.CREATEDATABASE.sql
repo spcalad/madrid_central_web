@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS station(
 	id serial PRIMARY KEY,
 	name VARCHAR(40),
 	type VARCHAR(40),
-	address VARCHAR(40),
+	address VARCHAR(100),
 	latitude FLOAT NOT NULL,
 	longitude FLOAT NOT NULL,
 	altitude FLOAT NOT NULL,

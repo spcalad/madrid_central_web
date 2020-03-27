@@ -5,12 +5,13 @@ from app import db
 #@dates_blueprints.route('/')
 def index_dates():
     days = Day.query
-    return render_template('day/index.html', days=days)
+    return render_template('days/index.html', days=days)
 
 def create_dates():
+    breakpoint()
     days = Day.create_range(request.form.get('initialDate'), request.form.get('finalDate'))
     for day in days:
-        new_day = Day(id=''.join(day), day=day[2], month=day[1], year=day[0])
+        new_day = Day(id='0'.join(day), day=day[2], month=day[1], year=day[0])
         db.session.add(new_day)
         db.session.commit()
     return redirect('/dates')

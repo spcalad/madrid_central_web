@@ -1,7 +1,57 @@
 {% extends "layouts/application.html" %}
 
 {% block content %}
+  <div class="row">
+    <div class="col-lg-8">
+      <h2>Magnitudes</h2>
+    </div>
+    <div class="col-lg-4">
+      <button class="btn btn-outline-success" data-toggle="modal" data-target="#modalNew">Crear</button>
+      <button class="btn btn-outline-danger" data-toggle="modal" data-target="#modalDelete">Eliminar</button>
+    </div>
+  </div>
 
-<h2>Magnitudes</h2>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Abbreviation</th>
+        <th scope="col">Unit</th>
+        <th scope="col">Max value excelent</th>
+        <th scope="col">Min value good</th>
+        <th scope="col">Max value good</th>
+        <th scope="col">Min value acceptable</th>
+        <th scope="col">Max value acceptable</th>
+        <th scope="col">Min value bad</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for magnitude in magnitudes %}
+        <tr>
+          <th scope="row">{{ magnitude.id }}</th>
+          <td>{{ magnitude.name }}</td>
+          <td>{{ magnitude.abbreviation }}</td>
+          <td>{{ magnitude.unit }}</td>
+          <td>{{ magnitude.max_value_excelent }}</td>
+          <td>{{ magnitude.min_value_good }}</td>
+          <td>{{ magnitude.max_value_good }}</td>
+          <td>{{ magnitude.min_value_acceptable }}</td>
+          <td>{{ magnitude.max_value_acceptable }}</td>
+          <td>{{ magnitude.min_value_bad }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
+
+  <!-- Modal New -->
+  <div class="modal fade" id="modalNew" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {% include 'magnitudes/create.html' %}
+  </div>
+
+  <!-- Modal Delete -->
+  <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {% include 'magnitudes/delete.html' %}
+  </div>
 {% endblock content %}
