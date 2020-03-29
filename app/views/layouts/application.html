@@ -39,12 +39,20 @@
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarToggle">
-            <div class="navbar-nav mr-auto">
-              <a class="nav-item nav-link" href="/measurements">Medida</a>
-              <a class="nav-item nav-link" href="/magnitudes">Magnitud</a>
-              <a class="nav-item nav-link" href="/stations">Estación</a>
-              <a class="nav-item nav-link" href="/dates">Fecha</a>
-            </div>
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Insertar datos
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="/days">Fecha</a>
+                  <a class="dropdown-item" href="/times">Hora</a>
+                  <a class="dropdown-item" href="/magnitudes">Magnitud</a>
+                  <a class="dropdown-item" href="/stations">Estación</a>
+                  <a class="dropdown-item" href="/measurements">Medida</a>
+                </div>
+              </li>
+            </ul>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
               <a class="nav-item nav-link" href="/login">Ingresar</a>

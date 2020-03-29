@@ -1,6 +1,6 @@
 <div class="modal-dialog" role="document">
   <div class="modal-content">
-    <form action="/dates/create" method="post">
+    <form action="/days/create" method="post">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Crear fechas</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -12,9 +12,9 @@
           <div class="row">
             <div class="form-group">
               <p>Fecha de inicio</p>
-              <div class="input-group date" id="initialDate" data-target-input="nearest">
-                <input name="initialDate" type="text" class="form-control datetimepicker-input" data-target="#initialDate"/>
-                  <div class="input-group-append" data-target="#initialDate" data-toggle="datetimepicker">
+              <div class="input-group date" id="initialDay" data-target-input="nearest">
+                <input name="initialDay" type="text" class="form-control datetimepicker-input" data-target="#initialDay"/>
+                  <div class="input-group-append" data-target="#initialDay" data-toggle="datetimepicker">
                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                   </div>
               </div>
@@ -23,9 +23,9 @@
           <div class="row">
             <div class="form-group">
               <p>Fecha de fin</p>
-              <div class="input-group date" id="finalDate" data-target-input="nearest">
-                  <input name="finalDate" type="text" class="form-control datetimepicker-input" data-target="#finalDate"/>
-                  <div class="input-group-append" data-target="#finalDate" data-toggle="datetimepicker">
+              <div class="input-group date" id="finalDay" data-target-input="nearest">
+                  <input name="finalDay" type="text" class="form-control datetimepicker-input" data-target="#finalDay"/>
+                  <div class="input-group-append" data-target="#finalDay" data-toggle="datetimepicker">
                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                   </div>
               </div>
@@ -43,7 +43,7 @@
 
 <script type="text/javascript">
   $(function () {
-      $("#initialDate").datetimepicker({format: "L"});
-      $("#finalDate").datetimepicker({format: "L"});
+      $("#initialDay").datetimepicker({format: "L"});
+      $("#finalDay").datetimepicker({format: "L"});
   });
 </script>

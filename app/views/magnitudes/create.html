@@ -1,6 +1,6 @@
 <div class="modal-dialog" role="document">
   <div class="modal-content">
-    <form action="/magnitudes/create" method="post">
+    <form action="/magnitudes/create" method="post" enctype="multipart/form-data">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Crear magnitudes</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -10,83 +10,11 @@
       <div class="modal-body">
         <div class="container">
           <div class="row">
-            <div class="form-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-default">Id</span>
+            <div class="input-group mb-3">
+              <div class="custom-file">
+                <input type="file" name="file" accept=".csv" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                <label class="custom-file-label" for="inputGroupFile01">Escoger archivo...</label>
               </div>
-              <input type="text" name="id" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
-              </div>
-              <input type="text" name="name" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-default">Abbreviation</span>
-              </div>
-              <input type="text" name="abbreviation" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-default">Unit</span>
-              </div>
-              <input type="text" name="unit" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-default">Max value excelent</span>
-              </div>
-              <input type="text" name="max_value_excelent" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-default">Min value good</span>
-              </div>
-              <input type="text" name="min_value_good" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-default">Max value good</span>
-              </div>
-              <input type="text" name="max_value_good" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-default">Min value acceptable</span>
-              </div>
-              <input type="text" name="min_value_acceptable" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-default">Max value acceptable</span>
-              </div>
-              <input type="text" name="max_value_acceptable" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-default">Min value bad</span>
-              </div>
-              <input type="text" name="min_value_bad" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
             </div>
           </div>
         </div>
@@ -98,3 +26,10 @@
     </form>
   </div>
 </div>
+
+<script type="text/javascript">
+  $('.custom-file input').change(function (e) {
+    $(this).next('.custom-file-label').html($(this)[0].files[0].name);
+  });
+
+</script>

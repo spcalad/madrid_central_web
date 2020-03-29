@@ -11,8 +11,8 @@ class Station(db.Model):
     altitude = db.Column(db.FLOAT, nullable=False)
     start_date= db.Column(db.Date(), nullable=False)
 
-    def create_stations(fileStations):
-        stations = pd.read_csv(fileStations,
+    def read_stations_file(stationsFile):
+        stations = pd.read_csv(stationsFile,
              sep=';',
              header='infer',
              encoding='iso-8859-1')

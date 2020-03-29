@@ -7,15 +7,18 @@ def index_magnitudes():
     magnitudes = Magnitude.query
     return render_template('magnitudes/index.html', magnitudes=magnitudes)
 
-def create_magnitude():
-    new_magnitude = Magnitude(id=request.form.get('id'), name=request.form.get('name'), abbreviation=request.form.get('abbreviation'),
-                              unit=request.form.get('unit'), max_value_excelent=request.form.get('max_value_excelent'),
-                              min_value_good=request.form.get('min_value_good'), max_value_good=request.form.get('max_value_good'),
-                              min_value_acceptable=request.form.get('min_value_acceptable'), max_value_acceptable=request.form.get('max_value_acceptable'),
-                              min_value_bad=request.form.get('min_value_bad'))
+def create_magnitudes():
+    magnitudes = Magnitude.read_magnitude_file(request.files['file'])
+    for magnitude in magnitudes:
+        breakpoint()
+        new_magnitude = Magnitude(id=magnitude[0], name=magnitude[1], abbreviation=magnitude[2],
+                              unit=magnitude[3], max_value_excelent=magnitude[4],
+                              min_value_good=magnitude[5], max_value_good=magnitude[6],
+                              min_value_acceptable=magnitude[7], max_value_acceptable=magnitude[8],
+                              min_value_bad=magnitude[9])
 
-    db.session.add(new_magnitude)
-    db.session.commit()
+        db.session.add(new_magnitude)
+        db.session.commit()
     return redirect('/magnitudes')
 
 def delete_magnitudes():

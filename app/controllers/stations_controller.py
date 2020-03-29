@@ -8,7 +8,7 @@ def index_stations():
     return render_template('stations/index.html', stations=stations)
 
 def create_stations():
-    stations = Station.create_stations(request.files['file'])
+    stations = Station.read_stations_file(request.files['file'])
     for station in stations:
         new_station = Station(id=station[0], name=station[1], type=station[2],
                               address=station[3], latitude=station[4],

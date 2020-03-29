@@ -1,0 +1,41 @@
+{% extends "layouts/application.html" %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-lg-8">
+      <h2>Times</h2>
+    </div>
+    <div class="col-lg-4">
+      <button class="btn btn-outline-success" data-toggle="modal" data-target="#modalNew">Crear</button>
+      <button class="btn btn-outline-danger" data-toggle="modal" data-target="#modalDelete">Eliminar</button>
+    </div>
+  </div>
+
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Hour</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for time in times %}
+        <tr>
+          <th scope="row">{{ time.id }}</th>
+          <td>{{ time.hour }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+
+  <!-- Modal New -->
+  <div class="modal fade" id="modalNew" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {% include 'times/create.html' %}
+  </div>
+
+  <!-- Modal Delete -->
+  <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {% include 'times/delete.html' %}
+  </div>
+{% endblock content %}
