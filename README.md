@@ -13,12 +13,22 @@ Web application to load the datasets for the Madrid Central project.
 docker-compose build
 ```
 
-## Running the app
+## Running the App
 
 To run the app in development mode, execute:
 ```bash
 docker-compose up
 ```
+
+## Access the DB
+
+```bash
+docker-compose exec db psql -U postgres -d madrid_central
+```
+
+## Create madrid_central tables
+
+Execute `1.CREATEDATABASE.sql` 
 
 ## Running the app to use debug breakpoints
 ```bash
@@ -33,12 +43,6 @@ After adding the new library to the `requirements.txt` file, run:
 
 ```bash
 docker-compose exec app pip install -r requirements.txt
-```
-
-## How to access to the DB
-
-```bash
-docker-compose exec db psql -U postgres -d madrid_central
 ```
 
 ## Create tables with SQLAlchemy
