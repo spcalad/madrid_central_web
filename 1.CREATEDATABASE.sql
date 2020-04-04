@@ -19,7 +19,8 @@ CREATE TABLE IF NOT EXISTS station(
 	latitude FLOAT NOT NULL,
 	longitude FLOAT NOT NULL,
 	altitude FLOAT NOT NULL,
-	start_date DATE
+	start_date DATE,
+	category VARCHAR(20)
 );
 CREATE TABLE IF NOT EXISTS magnitude(
 	id serial PRIMARY KEY,
