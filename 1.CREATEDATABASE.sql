@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS measurement(
 	time_id INT NOT NULL,
 	magnitude_id INT NOT NULL,
 	value FLOAT NOT NULL,
-	validation BOOLEAN,
+	validation VARCHAR(1),
 	foreign key(station_id) REFERENCES station(id),
 	foreign key(day_id) REFERENCES day(id),
 	foreign key(time_id) REFERENCES time(id),
