@@ -1,6 +1,7 @@
 from app import db
 import pandas as pd
 from datetime import date
+import io
 
 
 class Measurement(db.Model):
@@ -16,24 +17,41 @@ class Measurement(db.Model):
 class FileReader:
     def __init__(self):
         self.maintable = []
+        self.extension = dict(csv='.csv', txt='.txt')
 
     def read_measurement_file(self, measurementFile):
         """Esta función se encarga de leer todos los archivos en el directorio que cumplen
         con el criterio de la extención"""
-        print('I am in the correct function here, good job and continue')
         tmp = []
+        print(measurementFile.filename)
+        try:
+            # print(measurementFile.__dict__)
+            ext_file = measurementFile.filename[-4:]
+            if ext_file == self.extension['csv']:
+                self.maintable = self.__read_csv_data(measurementFile)
 
-        self.maintable = self.__read_csv_data(measurementFile)
-        for index, row in self.maintable.iterrows():
-            tmp.append([row[0],
-                        row[1],
-                        row[2],
-                        row[3],
-                        row[4],
-                        row[5]])
+            elif ext_file == self.extension['txt']:
+                self.maintable = self.__read_txt_files(measurementFile)
 
-        self.maintable = tmp
-        print('HEy PILAS CA CON ESTA LIENA :', type(tmp))
+        except Exception as e:
+            print(f'An exception has raised while reading the csv file - Can not read the file: {measurementFile.filename}')
+            print('Exception: {0} - {1} - {2}'.format(e, e.__traceback__.tb_frame, e.__traceback__.tb_lineno))
+            self.maintable = []
+
+        if len(self.maintable) != 0:
+            for index, row in self.maintable.iterrows():
+                tmp.append([row[0],
+                            row[1],
+                            row[2],
+                            row[3],
+                            row[4],
+                            row[5]])
+
+            self.maintable = tmp
+            return True
+
+        else:
+            return False
 
     def __read_csv_data(self, magnitudeFile):
         measurement = pd.read_csv(magnitudeFile,
@@ -51,10 +69,84 @@ class FileReader:
         measurement['PUNTO_MUESTREO'] = tmp['PUNTO_MUESTREO']
         measurement.insert(5, 'TECNICA_MUESTREO', tmp['TECNICA_MUESTREO'])
 
-        return self.prepare_data(measurement)
+        return self.__prepare_data(measurement)
 
-    def prepare_data(self, datos):
-        # logging.info('Reshaping data: {}'.format(file_name))
+    def __read_txt_files(self, magnitudeFile):
+        """Esta función se encarga de leer los archiivos de tipo .txt y
+        prepararlos para la carga"""
+        # logging.info('Reading and process data...')
+        try:
+            bytes_data = magnitudeFile.read()
+            str_memory_file = bytes_data.decode('iso-8859-1')
+            datos = io.StringIO(str_memory_file)
+            contador = 0
+            splitters = [2, 5, 8, 10, 12, 14, 16, 18, 20, 22]
+            lst = []
+            while True:
+                temporal_row = []
+                _ = datos.readline()
+                if not _:
+                    # logging.info('Done: ' + str(contador) + ' processed')
+                    break
+
+                for spl in range(0, len(splitters)):
+                    if spl == 0:
+                        temporal_row.append(_[0:splitters[spl]])
+
+                    else:
+                        if spl == 3:
+                            # print('spl = ', str(spl))
+                            concat_str = temporal_row[0] + temporal_row[1] + temporal_row[2]
+                            temporal_row.append(_[splitters[spl - 1]:splitters[spl]])
+                            temporal_row.append(concat_str)
+
+                        elif spl == len(splitters) - 1:
+                            # print('spl = ', str(spl))
+                            tmp_values = _[splitters[spl - 1]:]
+
+                            for i in range(1, 25):
+                                if i == 1:
+                                    v = tmp_values[0:(i * 6)]
+                                    temporal_row.append(v[0:5])
+                                    temporal_row.append(v[5:6])
+
+                                else:
+                                    v = tmp_values[((i - 1) * 6):(i * 6)]
+                                    temporal_row.append(v[0:5])
+                                    temporal_row.append(v[5:6])
+
+                        elif spl == 6:
+                            # print('spl = ', str(spl), _[splitters[spl - 1]:splitters[spl]])
+                            temporal_row.append('20' + _[splitters[spl - 1]:splitters[spl]])
+
+                        else:
+                            # print('spl = ', str(spl), _[splitters[spl - 1]:splitters[spl]], '*')
+                            temporal_row.append(_[splitters[spl - 1]:splitters[spl]])
+
+                temporal_row.pop(6)
+                contador += 1
+                lst.append(temporal_row)
+
+        except Exception as e:
+            print('Exception: {0} - {1} - {2}'.format(e, e.__traceback__.tb_frame, e.__traceback__.tb_lineno))
+
+        try:
+            column_names = ['PROVINCIA', 'MUNICIPIO', 'ESTACION', 'MAGNITUD', 'PUNTO_MUESTREO', 'TECNICA_MUESTREO',
+                            'ANO', 'MES', 'DIA',
+                            'H01', 'V01', 'H02', 'V02', 'H03', 'V03', 'H04', 'V04', 'H05', 'V05', 'H06', 'V06', 'H07',
+                            'V07', 'H08', 'V08', 'H09', 'V09', 'H10', 'V10', 'H11', 'V11', 'H12', 'V12', 'H13', 'V13',
+                            'H14', 'V14', 'H15', 'V15', 'H16', 'V16', 'H17', 'V17', 'H18', 'V18', 'H19', 'V19', 'H20',
+                            'V20', 'H21', 'V21', 'H22', 'V22', 'H23', 'V23', 'H24', 'V24']
+
+            final_data = pd.DataFrame(lst, columns=column_names)
+            final_data = final_data.astype({'MES': int, 'DIA': int})
+
+        except Exception as e:
+            print('Exception: {0} - {1} - {2}'.format(e, e.__traceback__.tb_frame, e.__traceback__.tb_lineno))
+
+        return self.__prepare_data(final_data)
+
+    def __prepare_data(self, datos):
         datos = datos.astype({'MAGNITUD': int})
         datos = datos[(datos.MAGNITUD == 6)]
 
@@ -98,7 +190,7 @@ class FileReader:
         return data_3
 
     def __process_timestamp(self, fila):
-        # return pd.datetime(fila.ANO, fila.MES, fila.DIA)
+        """Esta función se encarga de juntar las filas AÑO MES DIA para formar el campo day_id de la tabla measurement"""
         if fila.MES < 10:
             fila.MES = '0' + str(fila.MES)
 
@@ -114,5 +206,7 @@ class FileReader:
         return int(''.join([str(fila.ANO), fila.MES, fila.DIA]))
 
     def __reorder_columns(self, table):
+        """Esta función se encarga de seleccionar y reorganiar las columnas del DataFrame. El orden es el mismo de
+        la tabla measurement en la base de datos"""
         table = table[['PUNTO_MUESTREO', 'TIMESTAMP', 'HORA', 'MAGNITUD', 'VALOR', 'VALIDEZ']]
         return table
