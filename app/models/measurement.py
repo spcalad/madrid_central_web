@@ -34,7 +34,8 @@ class FileReader:
                 self.maintable = self.__read_txt_files(measurementFile)
 
         except Exception as e:
-            print(f'An exception has raised while reading the csv file - Can not read the file: {measurementFile.filename}')
+            print(
+                f'An exception has raised while reading the csv file - Can not read the file: {measurementFile.filename}')
             print('Exception: {0} - {1} - {2}'.format(e, e.__traceback__.tb_frame, e.__traceback__.tb_lineno))
             self.maintable = []
 
@@ -148,7 +149,10 @@ class FileReader:
 
     def __prepare_data(self, datos):
         datos = datos.astype({'MAGNITUD': int})
-        datos = datos[(datos.MAGNITUD == 6)]
+        datos = datos[(datos.MAGNITUD == 14) |
+                      (datos.MAGNITUD == 8) |
+                      (datos.MAGNITUD == 9) |
+                      (datos.MAGNITUD == 10)]
 
         # Preparación de la tabla de datos
         col_names = datos.columns
