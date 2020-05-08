@@ -9,17 +9,43 @@
       </div>
       <div class="modal-body">
         <div class="container">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <div class="input-group-text">
-                <input name="stationCategory" type="radio" value="aire" id="radio_calidad" aria-label="Radio button for following text input" checked="checked">
-                <label for="radio_calidad">Calidad de aire</label>
-              </div>
+          <div class="row input-group">
+            <div class="radio_check">
+              <input name="stationCategory" type="radio" value="aire" id="radio_calidad" aria-label="Radio button for following text input" checked="checked">
+              <label for="radio_calidad">Calidad de aire</label>
             </div>
-            <div class="input-group-prepend">
-              <div class="input-group-text">
-                <input name="stationCategory" type="radio" value="transito" id="radio_transito" aria-label="Radio button for following text input">
-                <label for="radio_transito">Tránsito</label>
+            <div class="radio_check">
+              <input name="stationCategory" type="radio" value="transito" id="radio_transito" aria-label="Radio button for following text input">
+              <label for="radio_transito">Tránsito</label>
+            </div>
+          </div>
+          <div class="row" id="div_select_date" style="display: none;">
+            <div class="form-group">
+              <label>Selecione mes y año del archivo que va a subir</label>
+              <div class="row div_date">
+                <select class="form-control" id="monthFile" name="monthFile">
+                  <option> </option>
+                  <option>Enero</option>
+                  <option>Febrero</option>
+                  <option>Marzo</option>
+                  <option>Abril</option>
+                  <option>Mayo</option>
+                  <option>Junio</option>
+                  <option>Julio</option>
+                  <option>Agosto</option>
+                  <option>Septiembre</option>
+                  <option>Octubre</option>
+                  <option>Noviembre</option>
+                  <option>Diciembre</option>
+                </select>
+                <select class="form-control" id="yearFile" name="yearFile">
+                  <option> </option>
+                  <option>2016</option>
+                  <option>2017</option>
+                  <option>2018</option>
+                  <option>2019</option>
+                  <option>2020</option>
+                </select>
               </div>
             </div>
           </div>
@@ -45,5 +71,18 @@
   $('.custom-file input').change(function (e) {
     $(this).next('.custom-file-label').html($(this)[0].files[0].name);
   });
-
+  $(document).on('change','#radio_transito', function(){
+      const radio = $(this);
+      if (radio.is(':checked')) {
+        $('#div_select_date').show();
+      }
+  });
+  $(document).on('change','#radio_calidad', function(){
+      const radio = $(this);
+      if (radio.is(':checked')) {
+        $('#div_select_date').hide();
+        $("#monthFile").val(" ");
+        $("#yearFile").val(" ");
+      }
+  });
 </script>

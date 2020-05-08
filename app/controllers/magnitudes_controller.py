@@ -10,7 +10,6 @@ def index_magnitudes():
 def create_magnitudes():
     magnitudes = Magnitude.read_magnitude_file(request.files['file'])
     for magnitude in magnitudes:
-        breakpoint()
         new_magnitude = Magnitude(id=magnitude[0], name=magnitude[1], abbreviation=magnitude[2],
                               unit=magnitude[3], max_value_excelent=magnitude[4],
                               min_value_good=magnitude[5], max_value_good=magnitude[6],

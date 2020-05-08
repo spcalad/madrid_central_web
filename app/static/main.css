@@ -78,3 +78,29 @@ a.article-title:hover {
 .account-heading {
   font-size: 2.5rem;
 }
+
+.radio_check {
+  display: block;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: .375rem .75rem;
+  margin-bottom: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  text-align: center;
+  white-space: nowrap;
+}
+
+#monthFile {
+  width: 50%;
+}
+
+#yearFile {
+  width: 50%;
+}
+
+.div_date {
+  margin-left: 0px;
+}
