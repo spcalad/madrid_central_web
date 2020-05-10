@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS day(
 );
 CREATE TABLE IF NOT EXISTS station(
 	id serial PRIMARY KEY, -- pendiente revisar int - string
-	name VARCHAR(40) NOT NULL, 
+	name VARCHAR(40) NOT NULL,
 	type VARCHAR(40) NOT NULL,
 	category VARCHAR(40) NOT NULL,
 	address VARCHAR(200), -- pendiente hacern en postgresql
@@ -26,7 +26,8 @@ CREATE TABLE IF NOT EXISTS magnitude(
 	id serial PRIMARY KEY,
 	name VARCHAR(50),
 	abbreviation VARCHAR(10),
-	unit VARCHAR(10),
+	unit VARCHAR(20),
+	category VARCHAR(40) NOT NULL,
 	max_value_excelent FLOAT,
 	min_value_good FLOAT,
 	max_value_good FLOAT,

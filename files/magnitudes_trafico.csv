@@ -1,0 +1,6 @@
+51; intensidad; IN; VEHICULOS/H;;;;;;
+52; ocupacion; OC; %;;;;;;
+53; carga; CR;INT;;;;;;
+54; velocidad media; VMED; KM/H;;;;;;
+55; error; ER; N|E|S;;;;;;
+56; periodo integracion; PI; INT;;;;;;

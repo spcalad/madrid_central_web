@@ -16,8 +16,6 @@ def create_times():
     return redirect('/times')
 
 def delete_times():
-    times = Time.query
-    for time in times:
-         db.session.delete(time)
-         db.session.commit()
+    db.session.query(Time).delete()
+    db.session.commit()
     return redirect('/times')

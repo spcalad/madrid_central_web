@@ -16,8 +16,6 @@ def create_days():
     return redirect('/days')
 
 def delete_days():
-    days = Day.query
-    for day in days:
-         db.session.delete(day)
-         db.session.commit()
+    db.session.query(Day).delete()
+    db.session.commit()
     return redirect('/days')

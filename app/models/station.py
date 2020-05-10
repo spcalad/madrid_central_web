@@ -15,10 +15,15 @@ class Station(db.Model):
     category = db.Column(db.String(10), nullable=False)
 
     def read_stations_file(stationsFile, stationCategory, monthFile, yearFile):
-        stations = pd.read_csv(stationsFile,
+        filePath = "/tmp/stations.csv"
+        stationsFile.save(filePath)
+
+        file = open(filePath, encoding='iso-8859-1')
+
+        stations = pd.read_csv(file,
             sep=';',
             header='infer',
-            encoding='iso-8859-1')
+            error_bad_lines=False)
         if stationCategory == 'aire':
             stations = stations[['CODIGO', 'ESTACION', 'COD_TIPO', 'DIRECCION', 'LATITUD', 'LONGITUD', 'ALTITUD', 'Fecha alta']]
             stations['Fecha alta'] = pd.to_datetime(stations['Fecha alta'][0])

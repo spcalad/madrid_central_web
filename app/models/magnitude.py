@@ -12,10 +12,15 @@ class Magnitude(db.Model):
 	min_value_acceptable = db.Column(db.FLOAT, nullable=True)
 	max_value_acceptable = db.Column(db.FLOAT, nullable=True)
 	min_value_bad = db.Column(db.FLOAT, nullable=True)
+	category = db.Column(db.String(10), nullable=False)
 
-	def read_magnitude_file(magnitudeFile):
+	def read_magnitude_file(magnitudeFile, magnitudeCategory):
 		magnitudes = pd.read_csv(magnitudeFile,
 	         sep=';',
 	         encoding='iso-8859-1')
+		if magnitudeCategory == 'aire':
+			magnitudes['Category'] = 'CA'
+		elif magnitudeCategory == 'transito':
+			magnitudes['Category'] = 'T'
 
 		return magnitudes.values

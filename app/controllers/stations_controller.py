@@ -20,8 +20,6 @@ def create_stations():
     return redirect('/stations')
 
 def delete_stations():
-    stations = Station.query
-    for station in stations:
-         db.session.delete(station)
-         db.session.commit()
+    db.session.query(Station).delete()
+    db.session.commit()
     return redirect('/stations')
