@@ -10,7 +10,7 @@
       <button class="btn btn-outline-danger" data-toggle="modal" data-target="#modalDelete">Eliminar</button>
     </div>
   </div>
-
+  {{ pagination.info }}
   <table class="table">
     <thead class="thead-dark">
       <tr>
@@ -23,7 +23,7 @@
     <tbody>
       {% for day in days %}
         <tr>
-          <th scope="row">{{ day.id }}</th>
+          <th scope="row">{{ day.id + (page - 1) * per_page }}</th>
           <td>{{ day.day }}</td>
           <td>{{ day.month }}</td>
           <td>{{ day.year }}</td>
@@ -31,7 +31,7 @@
       {% endfor %}
     </tbody>
   </table>
-
+  {{ pagination.links }}
 
   <!-- Modal New -->
   <div class="modal fade" id="modalNew" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

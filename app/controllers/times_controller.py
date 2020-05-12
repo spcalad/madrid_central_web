@@ -4,7 +4,7 @@ from app import db
 
 #@dates_blueprints.route('/')
 def index_times():
-    times = Time.query
+    times = Time.query.order_by(Time.id)
     return render_template('times/index.html', times=times)
 
 def create_times():

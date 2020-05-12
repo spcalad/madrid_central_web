@@ -10,7 +10,7 @@
       <button class="btn btn-outline-danger" data-toggle="modal" data-target="#modalDelete">Eliminar</button>
     </div>
   </div>
-
+  {{ pagination.info }}
   <table class="table">
     <thead class="thead-dark">
       <tr>
@@ -30,7 +30,7 @@
     <tbody>
       {% for magnitude in magnitudes %}
         <tr>
-          <th scope="row">{{ magnitude.id }}</th>
+          <th scope="row">{{ magnitude.id + (page - 1) * per_page }}</th>
           <td>{{ magnitude.name }}</td>
           <td>{{ magnitude.abbreviation }}</td>
           <td>{{ magnitude.unit }}</td>
@@ -45,7 +45,7 @@
       {% endfor %}
     </tbody>
   </table>
-
+  {{ pagination.links }}
 
   <!-- Modal New -->
   <div class="modal fade" id="modalNew" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
