@@ -35,9 +35,10 @@ class Station(db.Model):
             stations.columns = stations.columns.str.replace('identif', 'cod_cent')
             stations.columns = stations.columns.str.replace('idelem', 'id')
             stations['Category'] = 'T'
+            stations['altitude'] = '0'
             monthFile = Station.month_converter(monthFile)
             stations['start_date'] = pd.to_datetime(str(monthFile)+'-'+yearFile)
-            stations['altitude'] = '0'
+            stations['id'] = stations.apply(lambda x: str(x.id)+str(monthFile)+str(yearFile), axis=1)
 
             if 'longitud' not in stations.columns and 'latitud' not in stations.columns:
                 stations = Station.convert_coordinates(stations)
@@ -47,7 +48,6 @@ class Station(db.Model):
         return stations.values
 
     def convert_coordinates(stations):
-
         stations[['st_x']] = stations.st_x.str.replace('.', '')
         stations[['st_x']] = stations.apply(lambda x: x.st_x[:6] + '.' + x.st_x[6:], axis=1)
 
@@ -55,11 +55,7 @@ class Station(db.Model):
         stations[['st_y']] = stations.apply(lambda y: y.st_y[:7] + '.' + y.st_y[7:], axis=1)
 
         myProj = Proj("+proj=utm +zone=30T, +ellps=WGS84 +datum=WGS84 +units=m +no_defs")
-        lon, lat = myProj(stations[['st_x']].values, stations[['st_y']].values, inverse=True)
-
-        stations['longitud'] = lon
-        stations['latitud'] = lat
-
+        stations['longitud'], stations['latitud'] = myProj(stations[['st_x']].values, stations[['st_y']].values, inverse=True)
         return stations
 
     def month_converter(month):

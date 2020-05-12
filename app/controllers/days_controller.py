@@ -11,6 +11,9 @@ def create_days():
     days = Day.create_range(request.form.get('initialDay'), request.form.get('finalDay'))
     for day in days:
         new_day = Day(id=''.join(day), day=day[2], month=day[1], year=day[0])
+        day = Day.query.get(''.join(day))
+        if day:
+            continue
         db.session.add(new_day)
         db.session.commit()
     return redirect('/days')

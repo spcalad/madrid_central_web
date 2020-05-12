@@ -15,6 +15,9 @@ def create_stations():
                               address=station[3], latitude=station[4],
                               longitude=station[5], altitude=station[6],
                               start_date=station[7], category=station[8])
+        station = Station.query.get(station[0])
+        if station:
+            continue
         db.session.add(new_station)
         db.session.commit()
     return redirect('/stations')

@@ -11,6 +11,9 @@ def create_times():
     times = Time.create_interval(request.form.get('initialTime'), request.form.get('finalTime'))
     for time in times:
         new_time = Time(id=time, hour=time)
+        time = Time.query.get(time)
+        if time:
+            continue
         db.session.add(new_time)
         db.session.commit()
     return redirect('/times')

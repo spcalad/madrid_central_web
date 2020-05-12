@@ -15,7 +15,9 @@ def create_magnitudes():
                               min_value_good=magnitude[5], max_value_good=magnitude[6],
                               min_value_acceptable=magnitude[7], max_value_acceptable=magnitude[8],
                               min_value_bad=magnitude[9], category=magnitude[10])
-
+        magnitude = Magnitude.query.get(magnitude[0])
+        if magnitude:
+            continue
         db.session.add(new_magnitude)
         db.session.commit()
     return redirect('/magnitudes')
