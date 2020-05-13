@@ -1,4 +1,4 @@
-CREATE DATABASE madridcentral;
+CREATE DATABASE madrid_central;
 
 CREATE TABLE IF NOT EXISTS time(
 	id serial PRIMARY KEY,
@@ -13,9 +13,9 @@ CREATE TABLE IF NOT EXISTS day(
 );
 CREATE TABLE IF NOT EXISTS station(
 	id serial PRIMARY KEY, -- pendiente revisar int - string
-	name VARCHAR(40) NOT NULL,
-	type VARCHAR(40) NOT NULL,
-	category VARCHAR(40) NOT NULL,
+	name VARCHAR(100) NOT NULL,
+	type VARCHAR(10) NOT NULL,
+	category VARCHAR(10) NOT NULL,
 	address VARCHAR(200), -- pendiente hacern en postgresql
 	latitude FLOAT NOT NULL,
 	longitude FLOAT NOT NULL,
@@ -24,10 +24,10 @@ CREATE TABLE IF NOT EXISTS station(
 );
 CREATE TABLE IF NOT EXISTS magnitude(
 	id serial PRIMARY KEY,
-	name VARCHAR(50),
+	name VARCHAR(100),
 	abbreviation VARCHAR(10),
-	unit VARCHAR(20),
-	category VARCHAR(40) NOT NULL,
+	unit VARCHAR(50),
+	category VARCHAR(10) NOT NULL,
 	max_value_excelent FLOAT,
 	min_value_good FLOAT,
 	max_value_good FLOAT,
@@ -47,4 +47,21 @@ CREATE TABLE IF NOT EXISTS measurement(
 	foreign key(time_id) REFERENCES time(id),
 	foreign key(magnitude_id) REFERENCES magnitude(id),
 	primary key(station_id, day_id, time_id, magnitude_id)
+);
+CREATE TABLE IF NOT EXISTS station_duplicate(
+	id serial NOT NULL, -- pendiente revisar int - string
+	start_date DATE NOT NULL,
+	name VARCHAR(100) NOT NULL,
+	type VARCHAR(10) NOT NULL,
+	category VARCHAR(10) NOT NULL,
+	address VARCHAR(200), -- pendiente hacern en postgresql
+	latitude FLOAT NOT NULL,
+	longitude FLOAT NOT NULL,
+	altitude FLOAT,
+	changed_name BOOLEAN,
+	changed_type BOOLEAN,
+	changed_address BOOLEAN,
+	changed_latitude BOOLEAN,
+	changed_longitude BOOLEAN,
+	primary key(id, start_date)
 );

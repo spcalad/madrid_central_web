@@ -1,6 +1,7 @@
 from flask import render_template, request, redirect
 from flask_paginate import Pagination, get_page_args
 from app.models.station import Station
+from app.models.station_duplicate import StationDuplicate
 from app import db
 
 #@stations_blueprints.route('/')
@@ -21,14 +22,13 @@ def create_stations():
                               address=station[3], latitude=station[4],
                               longitude=station[5], altitude=station[6],
                               start_date=station[7], category=station[8])
-        station = Station.query.get(station[0])
-        if station:
-            continue
-        db.session.add(new_station)
-        db.session.commit()
+
+        Station.create(new_station)
+
     return redirect('/stations')
 
 def delete_stations():
     db.session.query(Station).delete()
+    db.session.query(StationDuplicate).delete()
     db.session.commit()
     return redirect('/stations')

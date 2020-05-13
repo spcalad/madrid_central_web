@@ -28,7 +28,7 @@
     <tbody>
       {% for station in stations %}
         <tr>
-          <th scope="row">{{ station.id + (page - 1) * per_page }}</th>
+          <th scope="row">{{ station.id }}</th>
           <td>{{ station.name }}</td>
           <td>{{ station.type }}</td>
           <td>{{ station.category }}</td>

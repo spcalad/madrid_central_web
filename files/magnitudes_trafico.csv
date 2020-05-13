@@ -1,3 +1,4 @@
+id; name; abbreviation;	unit; max_value_excelent; min_value_good; max_value_good; min_value_acceptable;	max_value_acceptable; min_value_bad
 51; intensidad; IN; VEHICULOS/H;;;;;;
 52; ocupacion; OC; %;;;;;;
 53; carga; CR;INT;;;;;;

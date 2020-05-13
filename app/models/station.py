@@ -1,18 +1,40 @@
 from app import db
+from app.models.station_duplicate import StationDuplicate
 import pandas as pd
 from pyproj import Proj
 import re
 
 class Station(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(40), nullable=False)
-    type = db.Column(db.String(40), nullable=False)
-    address = db.Column(db.String(40))
+    name = db.Column(db.String(100), nullable=False)
+    type = db.Column(db.String(10), nullable=False)
+    category = db.Column(db.String(10), nullable=False)
+    address = db.Column(db.String(200))
     latitude = db.Column(db.FLOAT, nullable=False)
     longitude = db.Column(db.FLOAT, nullable=False)
     altitude = db.Column(db.FLOAT)
     start_date= db.Column(db.Date())
-    category = db.Column(db.String(10), nullable=False)
+
+    def create(newStation):
+        station = Station.query.get(newStation.id)
+        if station:
+            if (station.name != newStation.name or station.type != newStation.type or station.address != newStation.address or station.latitude != newStation.latitude or station.longitude != newStation.longitude) :
+                new_station_duplicate = StationDuplicate(id=station.id, name=station.name, type=station.type,
+                                      address=station.address, latitude=station.latitude,
+                                      longitude=station.longitude, altitude=station.altitude,
+                                      start_date=station.start_date, category=station.category,
+                                      changed_name=(station.name != newStation.name),
+                                      changed_type=(station.type != newStation.type),
+                                      changed_address=(station.address != newStation.address),
+                                      changed_latitude=(station.latitude != newStation.latitude),
+                                      changed_longitude=(station.longitude != newStation.longitude))
+                db.session.add(new_station_duplicate)
+                db.session.delete(station)
+                db.session.add(newStation)
+                db.session.commit()
+        else:
+            db.session.add(newStation)
+            db.session.commit()
 
     def read_stations_file(stationsFile, stationCategory, monthFile, yearFile):
         filePath = "/tmp/stations.csv"
@@ -38,7 +60,6 @@ class Station(db.Model):
             stations['altitude'] = '0'
             monthFile = Station.month_converter(monthFile)
             stations['start_date'] = pd.to_datetime(str(monthFile)+'-'+yearFile)
-            stations['id'] = stations.apply(lambda x: str(x.id)+str(monthFile)+str(yearFile), axis=1)
 
             if 'longitud' not in stations.columns and 'latitud' not in stations.columns:
                 stations = Station.convert_coordinates(stations)

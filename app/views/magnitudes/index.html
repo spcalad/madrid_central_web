@@ -30,7 +30,7 @@
     <tbody>
       {% for magnitude in magnitudes %}
         <tr>
-          <th scope="row">{{ magnitude.id + (page - 1) * per_page }}</th>
+          <th scope="row">{{ magnitude.id }}</th>
           <td>{{ magnitude.name }}</td>
           <td>{{ magnitude.abbreviation }}</td>
           <td>{{ magnitude.unit }}</td>
