@@ -5,6 +5,7 @@ from app.controllers.home_controller import index_home
 from app.controllers.measurements_controller import index_measurements
 from app.controllers.measurements_controller import create_measurements
 from app.controllers.measurements_controller import delete_measurements
+from app.controllers.measurements_controller import generate_air_stations_map, show_map, generate_air_map
 from app.controllers.magnitudes_controller import index_magnitudes, create_magnitudes, delete_magnitudes
 from app.controllers.stations_controller import index_stations, create_stations, delete_stations
 from app.controllers.days_controller import index_days, create_days, delete_days
@@ -19,6 +20,8 @@ app_blueprints.add_url_rule('/', view_func=index_home, methods=['GET'])
 app_blueprints.add_url_rule('/measurements', view_func=index_measurements, methods=['GET'])
 app_blueprints.add_url_rule('/measurements/create', view_func=create_measurements, methods=['POST'])
 app_blueprints.add_url_rule('/measurements/delete', view_func=delete_measurements, methods=['POST'])
+app_blueprints.add_url_rule('/measurements/generate_map', view_func=generate_air_stations_map, methods=['POST'])
+app_blueprints.add_url_rule('/measurements/show', view_func=show_map, methods=['GET'])
 app_blueprints.add_url_rule('/magnitudes', view_func=index_magnitudes, methods=['GET'])
 app_blueprints.add_url_rule('/magnitudes/create', view_func=create_magnitudes, methods=['POST'])
 app_blueprints.add_url_rule('/magnitudes/delete', view_func=delete_magnitudes, methods=['POST'])

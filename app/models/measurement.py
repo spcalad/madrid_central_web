@@ -216,3 +216,153 @@ class FileReader:
         la tabla measurement en la base de datos"""
         table = table[['PUNTO_MUESTREO', 'TIMESTAMP', 'HORA', 'MAGNITUD', 'VALOR', 'VALIDEZ']]
         return table
+
+
+class Plotter:
+    """Esta clase contiene todos los metodos y las operaciones necesarias para generar mapas"""
+
+    COORDENADAS_MADRID = [40.4167598, -3.7040395]
+    ZOOM_START = 13
+
+    def __init__(self, location=COORDENADAS_MADRID, zoom=ZOOM_START):
+        self._zoom = zoom
+        self._location = location
+        self._map = self.__initialize_map()
+
+    @property
+    def zoom(self):
+        return self._location
+
+    @zoom.setter
+    def zoom(self, value):
+        if value < 1 or value > 17:
+            raise ValueError('Zoom no permitido. Pruebe con un valor en el rango 1 - 16')
+
+        else:
+            self._location = value
+
+    @property
+    def map(self):
+        return self._map
+
+    @map.setter
+    def map(self, value):
+        if isinstance(value, folium.folium.Map):
+            self._map = value
+
+        else:
+            raise ValueError('The value must be an d instance of the class folium.Map()')
+
+    def __initialize_map(self):
+        """Inicializa in mapa con centro en las coordenadas de Madrid con el polígono que delimita Madrid Central"""
+
+        m = folium.Map(location=self.COORDENADAS_MADRID,
+                       tiles='OpenStreetMap',
+                       zoom_start=self.ZOOM_START)
+
+        gj = folium.GeoJson(data={
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [-3.711305, 40.406807],
+                    [-3.702612, 40.404997],
+                    [-3.693235, 40.407742],
+                    [-3.692248, 40.409000],
+                    [-3.694617, 40.415505],
+                    [-3.690392, 40.424887],
+                    [-3.696207, 40.427856],
+                    [-3.702162, 40.429122],
+                    [-3.705810, 40.429681],
+                    [-3.714018, 40.430404],
+                    [-3.715059, 40.428918],
+                    [-3.711797, 40.424377],
+                    [-3.714372, 40.422988],
+                    [-3.712870, 40.421534],
+                    [-3.714029, 40.410539]
+                ]]
+            }
+        }, name="Madrid Central")
+
+        gj.add_child(folium.Popup('Área de Madrid Central'))
+        gj.add_to(m)
+        folium.LayerControl().add_to(m)
+        return m
+
+    def add_air_station_marker(self, locations, station_names=None, legend=None, **kwargs):
+        """Agrega al mapa el tantas estaciones de calidad del aire como ubicaciones existan dentro del parametro
+        locations"""
+        if station_names is None:
+            station_names = [[i] for i in range(len(locations))]
+
+        for location, stat_name in zip(locations, station_names):
+            try:
+                folium.Marker(location=location,
+                              tooltip=folium.Tooltip(
+                                  f'Estación: {stat_name[0]}<br>Latitud: {round(location[0], 4)}<br>Longitud: {round(location[1], 4)}'),
+                              popup=legend,
+                              icon=folium.CustomIcon(icon_image='app/views/icons/forecast.png',
+                                                     icon_size=(40, 40))).add_to(self._map)
+            except TypeError as e:
+                print("El parametro location debe ser un de la forma [lat, lon] ó (lat,lon)")
+                print('Probando con la siguiente estación...')
+                continue
+
+            except FileNotFoundError as e:
+                print('El archivo para representar las estaciones no se encuentra en la carpeta "icons"')
+                break
+
+            except Exception as e:
+                print(e)
+
+    def add_air_station_marker_with_graph(self, data, *args, **kwargs):
+        """Esta función se encarga de agregar graficos al los marcadores existentes"""
+        locations = data.iloc[:, [1, 2]]
+        station_names = data.iloc[:, [3]]
+
+        station_ids = list(pd.unique(data.id))
+        station_groups = data.groupby('id')
+
+        for id in station_ids:
+            filtered_data = station_groups.get_group(id)
+            print('***** data get group')
+            print(type(filtered_data))
+            print(filtered_data.head())
+            plot_data = filtered_data.groupby(['magnitude', 'year', 'month', 'day']).agg(
+                {'value': 'mean'}).reset_index()
+            print('***** data plot data')
+            print(type(plot_data))
+            print(plot_data.head())
+
+            x = [int(hour) for hour in list(plot_data['day'])]
+            y = [int(value) for value in list(plot_data['value'])]
+            print(x)
+            print(y)
+
+            xy_values = {
+                'x': x,
+                'y': y,
+            }
+            scatter_chart = vincent.Scatter(xy_values,
+                                            iter_idx='x',
+                                            width=600,
+                                            height=300)
+
+            scatter_chart.axis_titles(x='Día', y='Promedio Dióxido de Nitrogeno día')
+
+            popup_scatter_plot = folium.Popup(max_width=900).add_child(
+                folium.Vega(scatter_chart, height=350, width=700))
+
+            air_quality_station = [filtered_data.iloc[0, 1], filtered_data.iloc[0, 2]]
+            print(air_quality_station)
+            station_name = [filtered_data.iloc[0, 3]]
+            print(station_name)
+            folium.Marker(location=air_quality_station,
+                          tooltip=folium.Tooltip(
+                              f'Estación: {station_name[0]}<br>Latitud: {round(air_quality_station[0], 4)}<br>Longitud: {round(air_quality_station[1], 4)}'),
+                          popup=popup_scatter_plot,
+                          icon=folium.CustomIcon(icon_image='app/views/icons/forecast.png',
+                                                 icon_size=(40, 40))).add_to(self._map)
+
+    def generate_map(self):
+        self.map.save('app/views/test_out/map.html')

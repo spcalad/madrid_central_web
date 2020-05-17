@@ -2,7 +2,7 @@ from flask import render_template
 import pandas as pd
 from flask import render_template, request, redirect
 from flask_paginate import Pagination, get_page_args
-from app.models.measurement import Measurement, FileReader#, Plotter
+from app.models.measurement import Measurement, FileReader, Plotter
 from app.models.station import Station
 from app.models.day import Day
 from app import db
