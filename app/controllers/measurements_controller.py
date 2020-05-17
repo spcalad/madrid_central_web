@@ -1,6 +1,7 @@
 from flask import render_template
 import pandas as pd
 from flask import render_template, request, redirect
+from flask_paginate import Pagination, get_page_args
 from app.models.measurement import Measurement, FileReader#, Plotter
 from app.models.station import Station
 from app.models.day import Day
@@ -9,8 +10,13 @@ from app import db
 
 #@measurements_blueprints.route('/')
 def index_measurements():
-    measurements = db.session.query(Measurement).limit(20)
-    return render_template('measurements/index.html', measurements=measurements)
+    measurements = db.session.query(Measurement)
+    page, per_page, offset = get_page_args(page_parameter='page',
+                                           per_page_parameter='per_page')
+    per_page = 50
+    pagination_measurement = measurements[offset: offset + per_page]
+    pagination = Pagination(page=page, per_page=per_page, total=measurements.count())
+    return render_template('measurements/index.html', measurements=pagination_measurement, pagination=pagination)
 
 
 def create_measurements():
