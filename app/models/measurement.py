@@ -180,6 +180,9 @@ class FileReader:
         # a realizar las operaciones.
         data_3 = data_long_1.merge(data_long_2, how='inner', on=col_comunes + ['HORA'])
 
+        # process validation character
+        data_3.VALIDEZ = data_3.apply(lambda row: self._process_validation(row), axis=1)
+
         # Pasar la hora formato datetime
         data_3 = data_3.astype({'HORA': int, 'PUNTO_MUESTREO': int})
         data_3.HORA = data_3.HORA - 1
@@ -216,6 +219,12 @@ class FileReader:
         la tabla measurement en la base de datos"""
         table = table[['PUNTO_MUESTREO', 'TIMESTAMP', 'HORA', 'MAGNITUD', 'VALOR', 'VALIDEZ']]
         return table
+
+    def _process_validation(self, row):
+        if row.VALIDEZ == 'V':
+            return 't'
+        else:
+            return 'f'
 
 
 class Plotter:
