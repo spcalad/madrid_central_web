@@ -217,6 +217,24 @@ class FileReader:
         table = table[['PUNTO_MUESTREO', 'TIMESTAMP', 'HORA', 'MAGNITUD', 'VALOR', 'VALIDEZ']]
         return table
 
+    def read_traffic_file(self, magnitudeFile):
+        traffic = pd.read_csv(magnitudeFile,
+                                  header='infer',
+                                  sep=';',
+                                  encoding='iso-8859-1')
+
+        traffic['day_id'] = traffic.apply(lambda row: row.day_id.replace('-', ''), axis=1)
+        traffic.drop(columns=['Unnamed: 0'], inplace=True)
+        print(traffic.head())
+
+        if len(self.maintable) == 0:
+            self.maintable = list(traffic.values)
+
+            return True
+
+        else:
+            return False
+
 
 class Plotter:
     """Esta clase contiene todos los metodos y las operaciones necesarias para generar mapas"""

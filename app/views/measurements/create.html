@@ -10,6 +10,14 @@
       <div class="modal-body">
         <div class="container">
           <div class="row">
+            <div class="radio_check">
+              <input name="stationCategory" type="radio" value="aire" id="radio_calidad" aria-label="Radio button for following text input" checked="checked">
+              <label for="radio_calidad">Calidad de aire</label>
+            </div>
+            <div class="radio_check">
+              <input name="stationCategory" type="radio" value="transito" id="radio_transito" aria-label="Radio button for following text input">
+              <label for="radio_transito">Tránsito</label>
+            </div>
             <div class="input-group mb-3">
               <div class="custom-file">
                 <input type="file" name="file" accept=".csv, .txt" class="custom-file-input" multiple="" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
@@ -32,4 +40,12 @@
     $(this).next('.custom-file-label').html($(this)[0].files[0].name);
   });
 
+  $('input[type=radio][name=stationCategory]').change(function(e) {
+    if (this.value == 'aire') {
+        alert("Aire");
+    }
+    else if (this.value == 'transito') {
+        alert("Transito");
+    }
+});
 </script>

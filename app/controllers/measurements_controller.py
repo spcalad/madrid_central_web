@@ -8,9 +8,9 @@ from app.models.day import Day
 from app import db
 
 
-#@measurements_blueprints.route('/')
+# @measurements_blueprints.route('/')
 def index_measurements():
-    measurements = db.session.query(Measurement)
+    measurements = db.session.query(Measurement).limit(200)
     page, per_page, offset = get_page_args(page_parameter='page',
                                            per_page_parameter='per_page')
     per_page = 50
@@ -20,10 +20,19 @@ def index_measurements():
 
 
 def create_measurements():
+    print(request.form.get('stationCategory'))
+    read_file_status = False
     measurement_obj = FileReader()
-    if measurement_obj.read_measurement_file(request.files['file']):
+    if request.form.get('stationCategory') == 'aire':
+        if measurement_obj.read_measurement_file(request.files['file']):
+            read_file_status = True
+    else:
+        if measurement_obj.read_traffic_file(request.files['file']):
+            read_file_status = True
+
+    if read_file_status:
         measurements = []
-        for measurement in measurement_obj.maintable:
+        for index, measurement in enumerate(measurement_obj.maintable):
             measurements.append(Measurement(
                 station_id=measurement[0],
                 day_id=measurement[1],
@@ -32,11 +41,18 @@ def create_measurements():
                 value=measurement[4],
                 validation=measurement[5]
             ))
+            if index == 100:
+                break
 
         db.session.add_all(measurements)
         db.session.commit()
 
     return redirect('/measurements')
+
+
+def create_traffic_measurement():
+    traffic_obj = FileReader()
+    traffic_obj.read_traffic_file(request.files['file'])
 
 
 def generate_air_stations_map():
