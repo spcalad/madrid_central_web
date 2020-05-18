@@ -2,9 +2,7 @@ import os
 
 from flask import Blueprint
 from app.controllers.home_controller import index_home
-from app.controllers.measurements_controller import index_measurements
-from app.controllers.measurements_controller import create_measurements
-from app.controllers.measurements_controller import delete_measurements
+from app.controllers.measurements_controller import index_measurements, create_measurements, delete_measurements
 from app.controllers.measurements_controller import generate_air_stations_map, show_map, generate_air_map
 from app.controllers.magnitudes_controller import index_magnitudes, create_magnitudes, delete_magnitudes
 from app.controllers.stations_controller import index_stations, create_stations, delete_stations
