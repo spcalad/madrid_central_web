@@ -204,7 +204,7 @@ class FileReader:
             fila.MES = '0' + str(fila.MES)
 
         else:
-            fila.MES = str(file.MES)
+            fila.MES = str(fila.MES)
 
         if fila.DIA < 10:
             fila.DIA = '0' + str(fila.DIA)
@@ -225,6 +225,25 @@ class FileReader:
             return 't'
         else:
             return 'f'
+
+    def read_traffic_file(self, magnitudeFile):
+        try:
+            traffic = pd.read_csv(magnitudeFile,
+                                  header='infer',
+                                  sep=';',
+                                  encoding='iso-8859-1')
+
+            traffic['day_id'] = traffic.apply(lambda row: row.day_id.replace('-', ''), axis=1)
+            traffic.drop(columns=['Unnamed: 0'], inplace=True)
+            print(traffic.head())
+            self.maintable = list(traffic.values)
+            return True
+
+        except Exception as e:
+            print(
+                f'An exception has raised while reading the csv file - Can not read the file: {measurementFile.filename}')
+            print('Exception: {0} - {1} - {2}'.format(e, e.__traceback__.tb_frame, e.__traceback__.tb_lineno))
+            return False
 
 
 class Plotter:
