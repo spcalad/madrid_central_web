@@ -255,7 +255,7 @@ class Plotter:
     def __init__(self, location=COORDENADAS_MADRID, zoom=ZOOM_START):
         self._zoom = zoom
         self._location = location
-        self._map = self.__initialize_map()
+        self._map = self._initialize_map()
 
     @property
     def zoom(self):
@@ -281,7 +281,7 @@ class Plotter:
         else:
             raise ValueError('The value must be an d instance of the class folium.Map()')
 
-    def __initialize_map(self):
+    def _initialize_map(self):
         """Inicializa in mapa con centro en las coordenadas de Madrid con el polígono que delimita Madrid Central"""
 
         m = folium.Map(location=self.COORDENADAS_MADRID,
