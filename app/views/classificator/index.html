@@ -1,0 +1,29 @@
+{% extends "layouts/application.html" %}
+
+{% block content %}
+<div class="row">
+  <div class="col-8">
+    <img src="{{img}}" alt="Estaciones" width="500">
+  </div>
+  <div class="col-4">
+    <form action="/classificators/create" method="post">
+      <div class="input-group">
+        <div class="radio_check">
+          <input name="classificationType" type="radio" value="1" id="basic_filter" aria-label="Radio button for following text input" checked="checked">
+          <label for="basic_filter">Filtrado básico de estaciones</label>
+        </div>
+        <div class="radio_check">
+          <input name="classificationType" type="radio" value="2" id="rectangular_filter" aria-label="Radio button for following text input">
+          <label for="rectangular_filter">Filtrado rectangular de estaciones</label>
+        </div>
+        <div class="radio_check">
+          <input name="classificationType" type="radio" value="3" id="include_ca" aria-label="Radio button for following text input">
+          <label for="include_ca">Incluir estaciones de calidad del aire</label>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Clasificar</button>
+    </form>
+  </div>
+</div>
+
+{% endblock content %}

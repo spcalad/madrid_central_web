@@ -13,7 +13,8 @@ class Station(db.Model):
     latitude = db.Column(db.FLOAT, nullable=False)
     longitude = db.Column(db.FLOAT, nullable=False)
     altitude = db.Column(db.FLOAT)
-    start_date= db.Column(db.Date())
+    start_date = db.Column(db.Date())
+    classificator = db.Column(db.Integer)
 
     def create(newStation):
         station = Station.query.get(newStation.id)

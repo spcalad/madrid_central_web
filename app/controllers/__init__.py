@@ -8,6 +8,7 @@ from app.controllers.magnitudes_controller import index_magnitudes, create_magni
 from app.controllers.stations_controller import index_stations, create_stations, delete_stations
 from app.controllers.days_controller import index_days, create_days, delete_days
 from app.controllers.times_controller import index_times, create_times, delete_times
+from app.controllers.classificators_controller import index_classificators, create_classificators
 from app.controllers.sessions_controller import new_session
 
 template_dir = os.path.abspath('app/views/')
@@ -32,4 +33,6 @@ app_blueprints.add_url_rule('/days/delete', view_func=delete_days, methods=['POS
 app_blueprints.add_url_rule('/times', view_func=index_times, methods=['GET'])
 app_blueprints.add_url_rule('/times/create', view_func=create_times, methods=['POST'])
 app_blueprints.add_url_rule('/times/delete', view_func=delete_times, methods=['POST'])
+app_blueprints.add_url_rule('/classificators', view_func=index_classificators, methods=['GET'])
+app_blueprints.add_url_rule('/classificators/create', view_func=create_classificators, methods=['POST'])
 app_blueprints.add_url_rule('/login', view_func=new_session, methods=['GET'])

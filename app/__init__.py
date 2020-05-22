@@ -10,7 +10,7 @@ login_manager = LoginManager()
 db = SQLAlchemy()
 
 def create_app():
-    application = Flask(__name__)
+    application = Flask(__name__, static_url_path='/static')
     application.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
     register_blueprints(application)
     initialize_extensions(application)

@@ -1,5 +1,5 @@
 # pull python image
-FROM amancevice/pandas:1.0.1-alpine
+FROM amancevice/pandas:1.0.1
 
 # set working directory
 WORKDIR /usr/src/madrid_central
@@ -8,7 +8,7 @@ WORKDIR /usr/src/madrid_central
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev
+RUN apt-get update && apt-get install -y libpq-dev gcc python3-dev musl-dev g++ libfreetype6-dev
 
 # install dependencies
 RUN pip3 install --upgrade pip

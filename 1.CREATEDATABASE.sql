@@ -12,15 +12,16 @@ CREATE TABLE IF NOT EXISTS day(
 	year INT NOT NULL
 );
 CREATE TABLE IF NOT EXISTS station(
-	id serial PRIMARY KEY, -- pendiente revisar int - string
+	id serial PRIMARY KEY,
 	name VARCHAR(100) NOT NULL,
 	type VARCHAR(10) NOT NULL,
 	category VARCHAR(10) NOT NULL,
-	address VARCHAR(200), -- pendiente hacern en postgresql
+	address VARCHAR(200),
 	latitude FLOAT NOT NULL,
 	longitude FLOAT NOT NULL,
 	altitude FLOAT,
-	start_date DATE
+	start_date DATE,
+	classificator INT
 );
 CREATE TABLE IF NOT EXISTS magnitude(
 	id serial PRIMARY KEY,
