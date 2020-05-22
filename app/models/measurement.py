@@ -226,14 +226,16 @@ class FileReader:
         else:
             return 'f'
 
-    def read_traffic_file(self, magnitudeFile):
+    def read_traffic_file(self, measurementFile):
         try:
-            traffic = pd.read_csv(magnitudeFile,
+            print(f'Archivo seleccionado:{measurementFile.filename}')
+
+            traffic = pd.read_csv(measurementFile,
                                   header='infer',
                                   sep=';',
                                   encoding='iso-8859-1')
 
-            traffic.drop(columns=['Unnamed: 0'], inplace=True)
+            print(f'Archivo {measurementFile.filename} con éxito:')
             print(traffic.head())
             self.maintable = list(traffic.values)
             return True
