@@ -233,7 +233,6 @@ class FileReader:
                                   sep=';',
                                   encoding='iso-8859-1')
 
-            traffic['day_id'] = traffic.apply(lambda row: row.day_id.replace('-', ''), axis=1)
             traffic.drop(columns=['Unnamed: 0'], inplace=True)
             print(traffic.head())
             self.maintable = list(traffic.values)
