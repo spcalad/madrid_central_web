@@ -20,6 +20,7 @@ app_blueprints.add_url_rule('/measurements', view_func=index_measurements, metho
 app_blueprints.add_url_rule('/measurements/create', view_func=create_measurements, methods=['POST'])
 app_blueprints.add_url_rule('/measurements/delete', view_func=delete_measurements, methods=['POST'])
 app_blueprints.add_url_rule('/measurements/generate_map', view_func=generate_air_stations_map, methods=['POST'])
+app_blueprints.add_url_rule('/measurements/generate_air_map', view_func=generate_air_map, methods=['POST'])
 app_blueprints.add_url_rule('/measurements/show', view_func=show_map, methods=['GET'])
 app_blueprints.add_url_rule('/magnitudes', view_func=index_magnitudes, methods=['GET'])
 app_blueprints.add_url_rule('/magnitudes/create', view_func=create_magnitudes, methods=['POST'])

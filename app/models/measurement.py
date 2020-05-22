@@ -204,7 +204,7 @@ class FileReader:
             fila.MES = '0' + str(fila.MES)
 
         else:
-            fila.MES = str(file.MES)
+            fila.MES = str(fila.MES)
 
         if fila.DIA < 10:
             fila.DIA = '0' + str(fila.DIA)
@@ -226,6 +226,26 @@ class FileReader:
         else:
             return 'f'
 
+    def read_traffic_file(self, measurementFile):
+        try:
+            print(f'Archivo seleccionado:{measurementFile.filename}')
+
+            traffic = pd.read_csv(measurementFile,
+                                  header='infer',
+                                  sep=';',
+                                  encoding='iso-8859-1')
+
+            print(f'Archivo {measurementFile.filename} con éxito:')
+            print(traffic.head())
+            self.maintable = list(traffic.values)
+            return True
+
+        except Exception as e:
+            print(
+                f'An exception has raised while reading the csv file - Can not read the file: {measurementFile.filename}')
+            print('Exception: {0} - {1} - {2}'.format(e, e.__traceback__.tb_frame, e.__traceback__.tb_lineno))
+            return False
+
 
 class Plotter:
     """Esta clase contiene todos los metodos y las operaciones necesarias para generar mapas"""
@@ -236,7 +256,7 @@ class Plotter:
     def __init__(self, location=COORDENADAS_MADRID, zoom=ZOOM_START):
         self._zoom = zoom
         self._location = location
-        self._map = self.__initialize_map()
+        self._map = self._initialize_map()
 
     @property
     def zoom(self):
@@ -262,7 +282,7 @@ class Plotter:
         else:
             raise ValueError('The value must be an d instance of the class folium.Map()')
 
-    def __initialize_map(self):
+    def _initialize_map(self):
         """Inicializa in mapa con centro en las coordenadas de Madrid con el polígono que delimita Madrid Central"""
 
         m = folium.Map(location=self.COORDENADAS_MADRID,
