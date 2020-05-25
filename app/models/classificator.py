@@ -1,4 +1,5 @@
 from app import db
+from sqlalchemy import between, or_
 import pandas as pd
 import numpy as np
 import base64
@@ -18,6 +19,7 @@ class Classificator():
 
         image = BytesIO()
         plt.savefig(image, format='png')
+        plt.close()
 
         return base64.encodestring(image.getvalue())
 
@@ -34,31 +36,45 @@ class Classificator():
 
     def __get_clusters__(iteration):
         if iteration >= 1:
-            return Station.query.filter(Station.category == 'CA', Station.type.in_(['UT', 'UF'])).distinct(Station.classificator).count()
+            return Station.query.filter(Station.category == 'CA', Station.type.in_(['UT', 'UF'])).filter(or_(~Station.latitude.between(40.404997, 40.430404), ~Station.longitude.between(-3.715059, -3.690392))).distinct(Station.classificator).count()
         else:
-            return Station.query.filter(Station.category == 'CA', Station.type.in_(['UT', 'UF'])).count()
+            return Station.query.filter(Station.category == 'CA', Station.type.in_(['UT', 'UF'])).filter(or_(~Station.latitude.between(40.404997, 40.430404), ~Station.longitude.between(-3.715059, -3.690392))).count()
 
     def __get_coordinates__():
-        return pd.read_sql("""SELECT latitude, longitude FROM station WHERE type IN ('URB', 'UT', 'UF') AND latitude != 'NaN' AND longitude != 'NaN' ORDER BY id""", db.engine)
+        return pd.read_sql("""SELECT latitude, longitude
+                              FROM station
+                              WHERE type IN ('URB', 'UT', 'UF')
+                              AND latitude != 'NaN'
+                              AND longitude != 'NaN'
+                              AND NOT ((latitude BETWEEN 40.404997 AND 40.430404) AND (longitude BETWEEN -3.715059 AND -3.690392))
+                              ORDER BY id""", db.engine)
 
     def __get_stations__():
-        return Station.query.filter(Station.type.in_(['URB', 'UT', 'UF']), Station.latitude != 'NaN', Station.longitude != 'NaN').order_by(Station.id).all()
+        return Station.query.filter(Station.type.in_(['URB', 'UT', 'UF']), Station.latitude != 'NaN', Station.longitude != 'NaN').filter(or_(~Station.latitude.between(40.404997, 40.430404), ~Station.longitude.between(-3.715059, -3.690392))).order_by(Station.id).all()
 
     def __classify__(K, lat_long):
         km = KMeans(n_clusters=K)
         labels = km.fit(lat_long).labels_
 
         stations = Classificator.__get_stations__()
+
         for i in range(len(stations)):
             station = stations[i]
-            station.classificator = int(labels[i])
+            station.classificator = int(labels[i])+1
         db.session.commit()
 
-
-
+        db.session.query(Station).filter(Station.type.in_(['URB', 'UT', 'UF']), Station.latitude != 'NaN', Station.longitude != 'NaN', Station.latitude.between(40.404997, 40.430404), Station.longitude.between(-3.715059, -3.690392)).update(values={"classificator": 0}, synchronize_session=False)
+        db.session.commit()
 
     def __get_traffic_plot__():
-        return pd.read_sql("""SELECT latitude, longitude, classificator FROM station WHERE category = 'T' AND type = 'URB' AND latitude != 'NaN' AND longitude != 'NaN'""", db.engine)
+        return pd.read_sql("""SELECT latitude, longitude, classificator
+                              FROM station
+                              WHERE category = 'T'
+                              AND type = 'URB'
+                              AND latitude != 'NaN'
+                              AND longitude != 'NaN'""", db.engine)
 
     def __get_air_quality_plot__():
-        return pd.read_sql("""SELECT latitude, longitude, classificator FROM station WHERE category = 'CA' AND type IN ('UT', 'UF')""", db.engine)
+        return pd.read_sql("""SELECT latitude, longitude, classificator
+                              FROM station
+                              WHERE category = 'CA' AND type IN ('UT', 'UF')""", db.engine)
