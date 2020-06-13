@@ -1,0 +1,50 @@
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Visualización del archivo de estaciones</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="container">
+        <div class="row input-group">
+          <div class="radio_check">
+            <input name="stationCategory" type="radio" value="aire" id="radio_calidad" aria-label="Radio button for following text input" checked="checked">
+            <label for="radio_calidad">Calidad de aire</label>
+          </div>
+          <div class="radio_check">
+            <input name="stationCategory" type="radio" value="transito" id="radio_transito" aria-label="Radio button for following text input">
+            <label for="radio_transito">Tráfico</label>
+          </div>
+        </div>
+        <div class="row" id="div_file_ca">
+          <img class="d-block w-100" src="/static/images/file_ca_stations.png" alt="Archivo Calidad del Aire">
+        </div>
+        <div class="row" id="div_file_traffic" style="display: none;">
+          <img class="d-block w-100" src="/static/images/file_t_stations.png" alt="Archivo Trafico">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).on('change','#radio_transito', function(){
+      const radio = $(this);
+      if (radio.is(':checked')) {
+        $('#div_file_traffic').show();
+        $('#div_file_ca').hide();
+      }
+  });
+  $(document).on('change','#radio_calidad', function(){
+      const radio = $(this);
+      if (radio.is(':checked')) {
+        $('#div_file_traffic').hide();
+        $('#div_file_ca').show();
+      }
+  });
+</script>

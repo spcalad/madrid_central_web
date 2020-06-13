@@ -15,7 +15,7 @@ def index_measurements():
                                            per_page_parameter='per_page')
     per_page = 50
     pagination_measurement = measurements[offset: offset + per_page]
-    pagination = Pagination(page=page, per_page=per_page, total=measurements.count())
+    pagination = Pagination(page=page, per_page=per_page, total=measurements.count(), css_framework='bootstrap4')
     return render_template('measurements/index.html', measurements=pagination_measurement, pagination=pagination)
 
 
@@ -33,6 +33,9 @@ def create_measurements():
     if read_file_status:
         measurements = []
         for index, measurement in enumerate(measurement_obj.maintable):
+            station = Station.query.get(measurement[0])
+            if not station:
+                continue
             measurements.append(Measurement(
                 station_id=measurement[0],
                 day_id=measurement[1],
@@ -42,8 +45,8 @@ def create_measurements():
                 validation=measurement[5]
             ))
             # Comment or delete two lines below if all values are required. This is just for test.
-            if index == 100:
-                break
+            #if index == 100:
+            #    break
 
         db.session.add_all(measurements)
         db.session.commit()

@@ -93,6 +93,13 @@ a.article-title:hover {
   white-space: nowrap;
 }
 
+.button-list {
+  list-style: none !important;
+}
+.button-list  li {
+  margin: 10px;
+}
+
 #monthFile {
   width: 50%;
 }
@@ -105,6 +112,16 @@ a.article-title:hover {
   margin-left: 0px;
 }
 
+.table-stations {
+  margin-left: -110px !important;
+}
+
+.carousel {
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+}
+
 .pagination-page-info {
     padding: .6em;
     padding-left: 0;
@@ -115,8 +132,44 @@ a.article-title:hover {
 }
 .pagination-page-info b {
     color: black;
-    background: #6aa6ed;
     padding-left: 2px;
     padding: .1em .25em;
     font-size: 150%;
+}
+
+.pagination {
+    display: -ms-flexbox;
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    border-radius: 0.25rem;
+}
+
+.pagination > li > a
+{
+    background-color: white;
+    color: #5f788a;
+}
+
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover
+{
+    color: #5a5a5a;
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+.pagination > .active > a
+{
+    color: white;
+    background-color: #5f788a !Important;
+    border: solid 1px #5f788a !Important;
+}
+
+.pagination > .active > a:hover
+{
+    background-color: #5f788a !Important;
+    border: solid 1px #5f788a;
 }

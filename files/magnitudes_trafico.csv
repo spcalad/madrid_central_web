@@ -3,5 +3,3 @@ id; name; abbreviation;	unit; max_value_excelent; min_value_good; max_value_good
 52; ocupacion; OC; %;;;;;;
 53; carga; CR;INT;;;;;;
 54; velocidad media; VMED; KM/H;;;;;;
-55; error; ER; N|E|S;;;;;;
-56; periodo integracion; PI; INT;;;;;;

@@ -9,7 +9,7 @@ def index_days():
     page, per_page, offset = get_page_args(page_parameter='page',
                                            per_page_parameter='per_page')
     pagination_days = days[offset: offset + per_page]
-    pagination = Pagination(page=page, per_page=per_page, total=days.count())
+    pagination = Pagination(page=page, per_page=per_page, total=days.count(), css_framework='bootstrap4')
     return render_template('days/index.html', days=pagination_days, page=page, per_page=per_page, pagination=pagination)
 
 def create_days():

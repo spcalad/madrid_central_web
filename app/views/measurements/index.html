@@ -2,15 +2,13 @@
 
 {% block content %}
 <div class="row">
-    <div class="col-lg-4">
+    <div class="col-lg-6">
         <h2>Medidas</h2>
     </div>
-    <div class="col-lg-8">
-        <button class="btn btn-outline-success" data-toggle="modal" data-target="#modalStation">Mapa estaciones</button>
-        <button class="btn btn-outline-success" data-toggle="modal" data-target="#modalNew">Crear</button>
-        <button class="btn btn-outline-success" data-toggle="modal" data-target="#modalMap">Mapa Calidad de aire</button>
-        <button class="btn btn-outline-danger" data-toggle="modal" data-target="#modalDelete">Eliminar</button>
-
+    <div class="col-lg-6">
+      <button class="btn btn-primary" data-toggle="modal" data-target="#modalFile">Ver archivo original</button>
+      <button class="btn btn-outline-success" data-toggle="modal" data-target="#modalNew">Cargar</button>
+      <button class="btn btn-outline-danger" data-toggle="modal" data-target="#modalDelete">Eliminar</button>
     </div>
 </div>
 {{ pagination.info }}
@@ -41,6 +39,11 @@
 </table>
 {{ pagination.links }}
 
+<!-- Modal File Visualization -->
+<div class="modal fade" id="modalFile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  {% include 'measurements/file.html' %}
+</div>
+
 <!-- Modal New -->
 <div class="modal fade" id="modalNew" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
@@ -51,18 +54,6 @@
 <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     {% include 'measurements/delete.html' %}
-</div>
-
-<!-- Modal Station -->
-<div class="modal fade" id="modalStation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    {% include 'measurements/generate_map.html' %}
-</div>
-
-<!-- Modal map -->
-<div class="modal fade" id="modalMap" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    {% include 'measurements/generate_air_map.html' %}
 </div>
 
 {% endblock content %}

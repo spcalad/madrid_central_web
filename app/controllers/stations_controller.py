@@ -11,7 +11,7 @@ def index_stations():
                                            per_page_parameter='per_page')
     per_page = 50
     pagination_stations = stations[offset: offset + per_page]
-    pagination = Pagination(page=page, per_page=per_page, total=stations.count())
+    pagination = Pagination(page=page, per_page=per_page, total=stations.count(), css_framework='bootstrap4')
     return render_template('stations/index.html', stations=pagination_stations, page=page, per_page=per_page, pagination=pagination)
 
 def create_stations():
